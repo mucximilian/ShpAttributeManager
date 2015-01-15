@@ -1,7 +1,15 @@
 # ShpAttributeManager
+
 A python plugin for Quantum GIS (QGIS) providing tools for the management of attribute table values QGIS plugings are stored in the .../python/plugins/ directory of your QGIS directory, depending on your OS.
 
-The basic logic of the tool is implemented so it is already doing what it should do. However, there are still a list of things that need to be fixed/improved:
+The main logic and the GUI of the tool are implemented, so it is already doing what it should do. With this tool it is possible to
+
+* display all the unique attribute values of a attribute table field
+* assign new attributes to features with a specific attribute
+* delete all features with a specific attribute
+* store the result in a new ESRI Shapefile
+
+However, there is still quite a list of things that need to be fixed or improved:
 
 * The layout
 * Marking of features to delete in the table view
