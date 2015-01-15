@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShpTableManagerDialogBase</class>
+ <widget class="QDialog" name="ShpTableManagerDialogBase">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>592</width>
+    <height>802</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Shapefile Attribute Manager</string>
+  </property>
+  <widget class="QTextBrowser" name="txtOutput">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>660</y>
+     <width>571</width>
+     <height>101</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnExecute">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>590</y>
+     <width>141</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Execute</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>130</y>
+     <width>571</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QTableWidget" name="tblAttrCurr">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>551</width>
+      <height>221</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblNewFieldName">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>280</y>
+      <width>241</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>...for column with new values</string>
+    </property>
+    <property name="text">
+     <string>Name for new value field:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txtNewFieldName">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>300</y>
+      <width>241</width>
+      <height>27</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="btnCancel">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>770</y>
+     <width>87</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblFileLocation">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>490</y>
+     <width>131</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Output file location:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="txtFileLocation">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>510</y>
+     <width>261</width>
+     <height>27</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnSelectFileLocation">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>510</y>
+     <width>87</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <property name="text">
+    <string>Select...</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>11</y>
+     <width>281</width>
+     <height>108</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="lblSelShp">
+      <property name="text">
+       <string>Select Shapefile:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="lblSelCol">
+      <property name="text">
+       <string>Select Column:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="cbxSelCol"/>
+    </item>
+   </layout>
+  </widget>
+  <zorder>layoutWidget</zorder>
+  <zorder>frame</zorder>
+  <zorder>txtOutput</zorder>
+  <zorder>btnExecute</zorder>
+  <zorder>btnCancel</zorder>
+  <zorder>lblFileLocation</zorder>
+  <zorder>txtFileLocation</zorder>
+  <zorder>btnSelectFileLocation</zorder>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsMapLayerComboBox</class>
+   <extends>QComboBox</extends>
+   <header>qgsmaplayercombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

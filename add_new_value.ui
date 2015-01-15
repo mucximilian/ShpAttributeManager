@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddNewValue</class>
+ <widget class="QDialog" name="AddNewValue">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>361</width>
+    <height>213</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Add new value</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>341</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Alternatively:</string>
+   </property>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>341</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>321</width>
+       <height>54</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="lblSelNewVal">
+          <property name="text">
+           <string>Select new value</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cbxSelNewValue"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="lblSelOriValue">
+          <property name="text">
+           <string>Select original value</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cbxSelOriValue"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>180</y>
+     <width>176</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>341</width>
+     <height>52</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QLabel" name="lblNewValue">
+      <property name="text">
+       <string>Enter new Value</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="txtNewValue"/>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>AddNewValue</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>132</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>143</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>AddNewValue</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>273</x>
+     <y>132</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>285</x>
+     <y>143</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
