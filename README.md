@@ -21,4 +21,4 @@ However, there is still quite a list of things that need to be fixed or improved
 * Adding a progress bar for processing
 * Adding new shapefile to the map after processing is finished
 
-[MIT License](http://opensource.org/licenses/MIT)
+This code released under the terms of the [MIT license](http://opensource.org/licenses/MIT)
