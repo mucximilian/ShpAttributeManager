@@ -2,7 +2,7 @@
 
 A python plugin for Quantum GIS (QGIS) providing tools for the management of attribute table values.
 
-## About
+## The tool
 
 QGIS plugings are stored in the _.../python/plugins/_ directory of your QGIS directory, depending on your OS.
 
