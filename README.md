@@ -29,4 +29,4 @@ However, there is still quite a list of things that need to be fixed or improved
 
 * * *
 
-This software is released under the terms of the [MIT license](http://opensource.org/licenses/MIT).
+This software is released under the terms of the [GNU GPL v2.0 license](http://www.gnu.org/licenses/gpl-2.0.txt).
