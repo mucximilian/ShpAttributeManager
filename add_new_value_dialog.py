@@ -55,9 +55,9 @@ class AddNewValueDialog(QtGui.QDialog, FORM_CLASS):
     # Updates the table cell with the new attribute value as well as the
     # matching list
     def updateCellValue(self):
-        print "Setting data in cell " 
-        + str(self.curr_row) + "," 
-        + str(self.curr_column)
+        print ("Setting data in cell "
+            + str(self.curr_row) + ","
+            + str(self.curr_column))
         
         # Update new value list and check for existing value
         value_text = self.txtNewValue.text()

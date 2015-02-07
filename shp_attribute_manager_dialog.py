@@ -281,8 +281,8 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
                 crs = self.selected_layer.crs()
                 feature_count = self.selected_layer.featureCount()            
                 
-                print "Storing data in new shapefile " 
-                + self.txtFileLocation.text()
+                print ("Storing data in new shapefile " 
+                	+ self.txtFileLocation.text())
                 
                 writer = QgsVectorFileWriter(self.txtFileLocation.text(), 
                 	"UTF-8", fields, wkb_type, crs, "ESRI Shapefile")
@@ -349,7 +349,7 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
             try:
                 new_value = self.values_new[idx_new_attribute]
             except TypeError:
-                new_value = old_attribute    
+                new_value = original_attribute    
             return new_value
         else:
             return None
