@@ -3,7 +3,7 @@
 /***************************************************************************
  ShpAttributeManager
                                  A QGIS plugin
- QGIS Plugin for managing the attribute table data of a shapfile
+ QGIS Plugin for managing the attribute table data of a shapefile
                               -------------------
         begin                : 2014-12-28
         git sha              : $Format:%H$

@@ -3,7 +3,7 @@
 /***************************************************************************
  ShpAttributeManagerDialog
                                  A QGIS plugin
- QGIS Plugin for managing the attribute table data of a shapfile
+ QGIS Plugin for managing the attribute table data of a shapefile
                              -------------------
         begin                : 2014-12-28
         git sha              : $Format:%H$
@@ -74,6 +74,9 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
         print self.mMapLayerComboBox.currentIndex()
     
     '''
+    ############################################################################
+    # Retrievieng the attribute field names from the selected layer
+    # OLD VERSION, not making use of the 'mMapLayerComboBox'
     def getLayers(self):
         layer_list = []    
     
@@ -81,22 +84,19 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
         del layer_list[:]
         allLayers = canvas.layers()
         
-        print "+++++++++++"
-        
         layer_list.append("--- select layer ---")
         for layer in allLayers:            
             layer_list.append(layer.name())
             print layer.name()
     
-        print str(len(layer_list) -1) + " layers available"        
-        print "+++++++++++"
+        print str(len(layer_list) -1) + " layers available"
     
         self.mMapLayerComboBox.addItems(layer_list)
         self.cbxSelCol.clear()
     '''
         
-    #####################################################################################################
-    # retrievieng the attribute field names from the selected layer 
+    ############################################################################
+    # Retrievieng the attribute field names from the selected layer 
     def getAttributes(self):
         
         self.selected_layer = self.mMapLayerComboBox.currentLayer()
@@ -107,51 +107,59 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
             
             new_field_list.append("--- select column ---")
             for i in range(0, len(field_list)):
-                #print layer.attributeDisplayName(i)
-                new_field_list.append(self.selected_layer.attributeDisplayName(i))
+                new_field_list.append(
+                	self.selected_layer.attributeDisplayName(i))
                 
             self.cbxSelCol.clear()
             self.cbxSelCol.addItems(new_field_list)
             
-            self.txtOutput.append("Features in this layer: " + str(self.selected_layer.featureCount()))
+            self.txtOutput.append("Features in this layer: " + str(
+            	self.selected_layer.featureCount()))
             
         except AttributeError:
             self.txtOutput.append("No attribute data available...")
         
-    #####################################################################################################
-    # fill the QTable with unique values
+    ############################################################################
+    # Filling the QTable with all unique values of an attribute field
     def getUniqueValues(self):
                       
-        self.selected_field_idx = self.cbxSelCol.currentIndex()-1 # skipping the first combobox item
+        # Skipping the first combobox item
+        self.selected_field_idx = self.cbxSelCol.currentIndex()-1
         print "selected attribute column = " + str(self.selected_field_idx)
         
         if self.cbxSelCol.currentIndex() == 0:
             print "Gnah..."
             self.txtOutput.append("No column selected")
         else:     
-            # reset arrays
+            # Reset arrays
             self.values_new = []
             self.values_matching = []
               
-            self.values_unique = self.selected_layer.dataProvider().uniqueValues(self.selected_field_idx)
+            provider = self.selected_layer.dataProvider()
+            self.values_unique = provider.uniqueValues(
+            	self.selected_field_idx)
             value_unique_count = len(self.values_unique)
-            self.txtOutput.append("Unique values in this layer: " + str(value_unique_count))
+            self.txtOutput.append(
+            	"Unique values in this layer: " + str(value_unique_count))
             
             for unique_value in self.values_unique:
-                self.values_matching.append([self.values_unique.index(unique_value), None])
+                self.values_matching.append(
+                	[self.values_unique.index(unique_value), None])
             
             self.tblAttrCurr.setRowCount(value_unique_count)
-            self.tblAttrCurr.setColumnCount(3)
-            
+            self.tblAttrCurr.setColumnCount(3)            
             self.tblAttrCurr.setColumnWidth(0,  30)
             self.tblAttrCurr.setColumnWidth(1,  236)
             self.tblAttrCurr.setColumnWidth(2,  236)
             
-            self.tblAttrCurr.setHorizontalHeaderItem(0, QtGui.QTableWidgetItem('Delete?'))
-            self.tblAttrCurr.setHorizontalHeaderItem(1, QtGui.QTableWidgetItem('Unique Attribute values'))
-            self.tblAttrCurr.setHorizontalHeaderItem(2, QtGui.QTableWidgetItem('NEW Attribute values'))
+            self.tblAttrCurr.setHorizontalHeaderItem(
+            	0, QtGui.QTableWidgetItem('Delete?'))
+            self.tblAttrCurr.setHorizontalHeaderItem(
+            	1, QtGui.QTableWidgetItem('Unique Attribute values'))
+            self.tblAttrCurr.setHorizontalHeaderItem(
+            	2, QtGui.QTableWidgetItem('NEW Attribute values'))
         
-            # filling table with unique values
+            # Filling table with unique values
             for i, value_unique in enumerate(self.values_unique):
                 
                 checkbox_item = QtGui.QTableWidgetItem()
@@ -164,11 +172,12 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
                     
                 item_unique_new = QtGui.QTableWidgetItem("")
                 
-                # make first column checkable
-                checkbox_item.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
+                # Make first column checkable
+                checkbox_item.setFlags(
+                	QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
                 checkbox_item.setCheckState(QtCore.Qt.Unchecked)    
                 
-                # disable cell editing
+                # Disable cell editing
                 item_unique.setFlags(QtCore.Qt.ItemIsEnabled)
                 item_unique_new.setFlags(QtCore.Qt.ItemIsEnabled)
 
@@ -178,8 +187,8 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
                 
             self.btnExecute.setDisabled(False)
               
-    #####################################################################################################
-    # edit a table cell value             
+    ############################################################################
+    # Edit a table cell value             
     def editTableCell(self, row, column):
         
         print "editing cell " + str(row) + "," + str(column)
@@ -194,110 +203,110 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
             else:
                 print str(row) + "," + str(column) + " unchecked" 
                 self.values_matching[row][1] = None
-        
-            # print self.values_matching
                 
-        # open the dialog to add a new value in the table
+        # Open the dialog to add a new value in the table
         elif item.column() == 2:
             
-            # make only cells selectable that are not marked for deletion
+            # Open the new value dialog only if row is not marked for deletion
             if self.tblAttrCurr.item(row, 0).checkState() == QtCore.Qt.Checked:
                 self.txtOutput.append("cannot edit this field")
             else:
-                self.addNewValueDialog.updateTableAndUniqueValues(self.tblAttrCurr, self.values_unique, self.values_matching, row, column)
+                self.addNewValueDialog.updateDialogData(
+                	self.tblAttrCurr, self.values_unique, self.values_matching, 
+                	row, column)
                 self.addNewValueDialog.show()
       
-    #####################################################################################################
+    ############################################################################
     # open the dialog to save the edits in a new shapefile              
     def showSaveDialog(self):
 
         print self.selected_layer.name()        
         
         out_file_name = str(QtGui.QFileDialog.getSaveFileName(
-            self, "Select output directory:", self.selected_layer.name() + "_edit.shp", "*.shp"))
+            self, "Select output directory:", 
+            self.selected_layer.name() + "_edit.shp", "*.shp"))
         print out_file_name
             
         self.txtFileLocation.clear()
         self.txtFileLocation.setText(out_file_name)
         
-    #####################################################################################################
-    # open the dialog to save the edits in a new shapefile    
+    ############################################################################
+    # This is where the actual processing takes place. If all parameters are set
+    # correctly, this function iterates over the features of the input shapefile
+    # and checks the attribute value in the value matching table.
+    #  
     def btnExecuteClicked(self):
         
         self.values_new = self.addNewValueDialog.getValuesNew()
-        self.values_matching = self.addNewValueDialog.getValuesMatching()                
-            
-        print self.values_unique
-        print self.values_new
-        print self.values_matching        
+        self.values_matching = self.addNewValueDialog.getValuesMatching()                  
         
-        # check for correct inputs
+        # Checking correct input parameters (new field name and file location)
         name_set = False
         location_set = False
         
         if self.txtNewFieldName.text() == "":
-            self.txtOutput.append("please select a name for the new field")
+            self.txtOutput.append(
+            	"please select a name for the new field")
         else:
-            name_set = True
-            
+            name_set = True     
+
         if self.txtFileLocation.text() == "":            
-            self.txtOutput.append("please select a location to store your new shapefile")    
+            self.txtOutput.append(
+            	"please select a location to store your new shapefile")    
         else:
             location_set = True
         
+        # Start processing if parameters are set
         if name_set & location_set:
+            
             print str(datetime.datetime.now()) + " - processing"
             
-            fields = self.selected_layer.pendingFields()
-            
-            field_is_unique = True
-            
-            new_field_name = self.txtNewFieldName.text()
-            
-            # check provided field name for uniqueness and length
+            # Check provided new field name for uniqueness and length
+            fields = self.selected_layer.pendingFields()            
+            field_is_unique = True            
+            new_field_name = self.txtNewFieldName.text()            
+
             for field in fields:
                 if field.name() == new_field_name:
-                    self.txtOutput.append("provided name for new field is not unique...")
-                    print "provided name for new field is not unique..."
+                    self.txtOutput.append(
+                    	"provided name for new field is not unique...")
                     field_is_unique = False 
 
+           	# Continue processing only if unique field name is unique
             if field_is_unique:
                 fields.append(QgsField(new_field_name, QtCore.QVariant.String))                
                 
-                # getting parameters of input shapefile                    
+                # Getting parameters of input shapefile for output                   
                 wkb_type = self.selected_layer.wkbType()
                 crs = self.selected_layer.crs()
-                feature_count = self.selected_layer.featureCount()
+                feature_count = self.selected_layer.featureCount()            
                 
-                print wkb_type
-                print crs.toWkt()
-                print feature_count                
+                print "Storing data in new shapefile " 
+                + self.txtFileLocation.text()
                 
-                print "creating shapefile " + self.txtFileLocation.text()
-                
-                writer = QgsVectorFileWriter(self.txtFileLocation.text(), "UTF-8", fields, wkb_type, crs, "ESRI Shapefile")
+                writer = QgsVectorFileWriter(self.txtFileLocation.text(), 
+                	"UTF-8", fields, wkb_type, crs, "ESRI Shapefile")
                 
                 if writer.hasError() != QgsVectorFileWriter.NoError:
                     print "error when creating shapefile: ", writer.hasError()
-                    self.txtOutput.append("error when creating shapefile: ", writer.hasError())    
-                    
-                iter = self.selected_layer.getFeatures()
+                    self.txtOutput.append(
+                    	"error when creating shapefile: ", writer.hasError())    
                 
+                # Iteration over all input features
+                iter = self.selected_layer.getFeatures()                
                 for feature in iter:
                     print "===================================================="                         
-                    print "feature ID %d: " % feature.id()
-                                      
+                    print "feature ID %d: " % feature.id()                                      
                     print str(feature.attributes())
                     
                     attributes = feature.attributes()
                     
-                    # get the new attribute for this feature attribute
+                    # Getting new attribute for feature attribute
                     old_attribute = attributes[self.selected_field_idx]
-                    new_attribute = self.getNewAttribute(old_attribute)                    
-                    
+                    new_attribute = self.getNewAttribute(old_attribute)           
                     print str(new_attribute)
                     
-                    # only add the feature if it is not marked for deletion                                                            
+                    # Only add the feature if it is not marked for deletion                                                           
                     if new_attribute is not None:                        
                         attributes.append(new_attribute)                            
                         
@@ -311,25 +320,36 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
                     else:
                         print "deleting feature"                            
                 
-                # delete the writer to flush features to disk 
+                # Delete the writer to flush features to disk 
                 del writer
                 
-                # resetting fields variable
+                # Resetting fields variable
                 fields = None
+
                 print str(datetime.datetime.now()) + " - processing done"
                 self.txtOutput.append("processing done")
-             
-    # returns the new value of an original unique value 
-    def getNewAttribute(self, old_attribute):
-        idx_old_attribute = self.values_unique.index(old_attribute)
-        idx_new_attribute = self.values_matching[idx_old_attribute][1]
+
+    ############################################################################
+    # Returns the new value of an original unique value.
+    # New attribute is either 'None' (for deletion) or the value of the new or
+    # the original attribute.
+    def getNewAttribute(self, original_attribute):
+        idx_original_attribute = self.values_unique.index(original_attribute)
+        idx_new_attribute = self.values_matching[idx_original_attribute][1]
                 
+        # Returns a value if new_attribute_idx is either 
+        # - 'None' (new value = original value)
+        # - greater than -1 (new value exists)
+        # otherwise returns 'None' (delete attribute)
+        #
+        # NOTE:
+        # 'None' in the matching table is translated to a value here, whereas
+        # -1 from the matching table is translated to 'None'.
         if idx_new_attribute is None or idx_new_attribute >= 0:
             try:
                 new_value = self.values_new[idx_new_attribute]
             except TypeError:
-                new_value = old_attribute
-                print "no new value..."     
+                new_value = old_attribute    
             return new_value
         else:
             return None
