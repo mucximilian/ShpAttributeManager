@@ -224,6 +224,13 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
     # open the dialog to save the edits in a new shapefile    
     def btnExecuteClicked(self):
         
+        self.values_new = self.addNewValueDialog.getValuesNew()
+        self.values_matching = self.addNewValueDialog.getValuesMatching()                
+            
+        print self.values_unique
+        print self.values_new
+        print self.values_matching        
+        
         # check for correct inputs
         name_set = False
         location_set = False
@@ -240,13 +247,6 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
         
         if name_set & location_set:
             print str(datetime.datetime.now()) + " - processing"
-            
-            self.values_new = self.addNewValueDialog.getValuesNew()
-            self.values_matching = self.addNewValueDialog.getValuesMatching()                
-            
-            print self.values_unique
-            print self.values_new
-            print self.values_matching
             
             fields = self.selected_layer.pendingFields()
             
@@ -284,6 +284,7 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
                 iter = self.selected_layer.getFeatures()
                 
                 for feature in iter:
+                    print "===================================================="                         
                     print "feature ID %d: " % feature.id()
                                       
                     print str(feature.attributes())
@@ -292,19 +293,23 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
                     
                     # get the new attribute for this feature attribute
                     old_attribute = attributes[self.selected_field_idx]
-                    new_attribute = self.getNewAttribute(old_attribute)
+                    new_attribute = self.getNewAttribute(old_attribute)                    
                     
-                    # only add the feature if it is not marked for deletion
-                    if new_attribute is not None:
-                        attributes.append(new_attribute)
+                    print str(new_attribute)
                     
+                    # only add the feature if it is not marked for deletion                                                            
+                    if new_attribute is not None:                        
+                        attributes.append(new_attribute)                            
+                        
                         feature.setFields(fields, False)
                         feature.initAttributes(fields.count())                     
                         feature.setAttributes(attributes)
-                        
+                            
                         print str(feature.attributes())
-    
-                        writer.addFeature(feature)                    
+        
+                        writer.addFeature(feature)
+                    else:
+                        print "deleting feature"                            
                 
                 # delete the writer to flush features to disk 
                 del writer
@@ -314,16 +319,17 @@ class ShpAttributeManagerDialog(QtGui.QDialog, FORM_CLASS):
                 print str(datetime.datetime.now()) + " - processing done"
                 self.txtOutput.append("processing done")
              
-    # returns the new value of the a unique value 
+    # returns the new value of an original unique value 
     def getNewAttribute(self, old_attribute):
         idx_old_attribute = self.values_unique.index(old_attribute)
         idx_new_attribute = self.values_matching[idx_old_attribute][1]
-        
-        if idx_new_attribute >= 0:
+                
+        if idx_new_attribute is None or idx_new_attribute >= 0:
             try:
                 new_value = self.values_new[idx_new_attribute]
             except TypeError:
-                new_value = old_attribute 
+                new_value = old_attribute
+                print "no new value..."     
             return new_value
         else:
             return None
